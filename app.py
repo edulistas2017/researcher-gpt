@@ -16,7 +16,10 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from langchain.schema import SystemMessage
+
 from fastapi import FastAPI
+
+import streamlit as st
 
 load_dotenv()
 brwoserless_api_key = os.getenv("BROWSERLESS_API_KEY")
@@ -49,7 +52,7 @@ def scrape_website(objective: str, url: str):
     # scrape website, and also will summarize the content based on objective if the content is too large
     # objective is the original objective & task that user give to the agent, url is the url of the website to be scraped
 
-    print("Scraping website...")
+    print("Fazendo o SCRAPE do website...")
     # Define the headers for the request
     headers = {
         'Cache-Control': 'no-cache',
@@ -80,7 +83,7 @@ def scrape_website(objective: str, url: str):
         else:
             return text
     else:
-        print(f"HTTP request failed with status code {response.status_code}")
+        print(f"ERRO: HTTP request failed with status code {response.status_code}")
 
 
 def summary(objective, content):
@@ -172,14 +175,15 @@ agent = initialize_agent(
 
 
 # 4. Use streamlit to create a web app
-# def main():
-#     st.set_page_config(page_title="AI research agent", page_icon=":bird:")
 
-#     st.header("AI research agent :bird:")
-#     query = st.text_input("Research goal")
+# def main():
+#     st.set_page_config(page_title="AGENTE de pesquisas usando AI", page_icon=":bird:")
+
+#     st.header("AGENTE de pesquisas usando AI :bird:")
+#     query = st.text_input("Entre o tema que deseja pesquisar:")
 
 #     if query:
-#         st.write("Doing research for ", query)
+#         st.write("Pesquisando ... ", query)
 
 #         result = agent({"input": query})
 
@@ -191,6 +195,7 @@ agent = initialize_agent(
 
 
 # 5. Set this as an API endpoint via FastAPI
+
 app = FastAPI()
 
 
